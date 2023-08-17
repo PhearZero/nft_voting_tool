@@ -5,7 +5,7 @@ import { AppSourceMaps } from '@algorandfoundation/algokit-utils/types/app-clien
 import { ApplicationResult } from '@algorandfoundation/algokit-utils/types/indexer'
 import algosdk, { ABIUintType, modelsv2 } from 'algosdk'
 import * as uuid from 'uuid'
-import * as appSpec from '../../../algorand/smart_contracts/artifacts/VotingRoundApp/application.json'
+import * as appSpec from '../../../xgov-contract/smart_contracts/artifacts/VotingRoundApp/application.json'
 import { VotingRoundMetadata } from './IPFSGateway'
 
 // Keep in sync between voting.py, IPFSGateway.ts and types.ts

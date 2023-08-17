@@ -1,0 +1,13 @@
+{
+  "name": "nft_voting_tool",
+  "version": "1.0.0",
+  "description": "This repository contains a voting tool that allows for creation and facilitation of immutable, tamperproof voting using the Algorand blockchain.",
+  "private": true,
+  "workspaces": [
+    "src/**"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "MIT"
+}

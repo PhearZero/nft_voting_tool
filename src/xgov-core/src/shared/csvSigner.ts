@@ -1,6 +1,6 @@
 import * as ed from '@noble/ed25519'
 import * as algo from 'algosdk'
-import Papa from 'papaparse'
+import * as Papa from 'papaparse'
 
 interface SignedCsv {
   address: string
@@ -23,8 +23,8 @@ export async function signCsv(csv: string, includeWeighting: boolean): Promise<{
   const publicKey = await ed.getPublicKeyAsync(privateKey)
   const signedCsv = await Promise.all(
     results.data
-      .filter((row) => !!row.address)
-      .map((row): Promise<SignedCsv> => {
+      .filter((row: SnapshotRow) => !!row.address)
+      .map((row: SnapshotRow): Promise<SignedCsv> => {
         let publicKey = algo.decodeAddress(row.address).publicKey
         const weight = Number(row.weight ?? 0)
         if (includeWeighting) {
@@ -33,7 +33,7 @@ export async function signCsv(csv: string, includeWeighting: boolean): Promise<{
           keyAndWeighting.set(new algo.ABIUintType(64).encode(weight ?? 0), publicKey.length)
           publicKey = keyAndWeighting
         }
-        return ed.signAsync(publicKey, privateKey).then((signature) => {
+        return ed.signAsync(publicKey, privateKey).then((signature: Uint8Array) => {
           return {
             address: row.address,
             signature: Buffer.from(signature).toString('base64'),
