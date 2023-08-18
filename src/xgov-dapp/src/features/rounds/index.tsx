@@ -9,9 +9,6 @@ import { getHasVoteEnded, getHasVoteStarted } from '@/shared/vote'
 import { useCreatorAddresses } from '../wallet/state'
 import { VotingRoundSection } from './VotingRoundSection'
 import { VotingRoundStatus } from './VotingRoundTile'
-import { attributes } from '../../../../xgov-proposals/Proposals/xgov-1.md'
-
-console.log(attributes)
 export const VotingRoundTileLoading = () => (
   <>
     <Skeleton className="h-52" variant="rectangular" />

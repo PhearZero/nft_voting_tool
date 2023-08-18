@@ -1,13 +1,35 @@
+import { useEffect, useState } from "react";
+
+const modules = import.meta.glob('../../../../xgov-proposals/Proposals/*.md')
+console.log(modules)
+function ProposalInfo({path}: {path: string}) {
+  const [name, setName]= useState<string|null>(null)
+  const [error, setIsError] = useState<Error|null>(null)
+  const [data, setData] = useState<any|null>(null)
+  useEffect(() => {
+    const _name = path.split('/').pop()?.replace('.md', '')
+    if(!_name) return
+    setName(_name);
+    import(`../../../../xgov-proposals/Proposals/${_name}.md`)
+      .then(setData)
+      .catch(setIsError)
+  },[setData, setIsError, path])
+  console.log(name)
+
+  if(error) return (<div>Error loading proposal {error.message}</div>)
+  if(!data) return (<div>Loading...</div>);
+
+  return (
+    <p>
+      <a href={`/proposals/${name}`}>{data.attributes.title}</a>
+    </p>
+  )
+
+}
 export function ProposalsList() {
   return <div>
-    <a href="/proposals/xgov-1">Proposal 1</a>
-    <a href="/proposals/xgov-6">Proposal 6</a>
-    <a href="/proposals/xgov-8">Proposal 8</a>
-    <a href="/proposals/xgov-9">Proposal 9</a>
-    <a href="/proposals/xgov-14">Proposal 14</a>
-    <a href="/proposals/xgov-17">Proposal 17</a>
-    <a href="/proposals/xgov-18">Proposal 18</a>
-    <a href="/proposals/xgov-19">Proposal 19</a>
-    <a href="/proposals/xgov-20">Proposal 20</a>
+    {Object.keys(modules).map((key) => {
+      return <ProposalInfo path={key} />
+    })}
   </div>;
 }
