@@ -1,0 +1,18 @@
+{
+  "name": "xgov.algorand.foundation",
+  "version": "1.0.0",
+  "description": "Workspace for xGov Algorand Foundation",
+  "private": true,
+  "workspaces": [
+    "infrastructure",
+    "src/*"
+  ],
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Algorand Foundation",
+  "license": "MIT"
+}

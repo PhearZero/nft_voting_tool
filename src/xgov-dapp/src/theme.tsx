@@ -19,8 +19,7 @@ const defaultSansFontFamily = [
 
 const StepIcon = () => <CircleIcon />
 
-export const theme = (rootElement: HTMLElement) =>
-  createTheme({
+export const theme =  createTheme({
     palette: {
       primary: {
         main: '#00B076',
@@ -59,11 +58,6 @@ export const theme = (rootElement: HTMLElement) =>
       },
     },
     components: {
-      MuiDialog: {
-        defaultProps: {
-          container: rootElement,
-        },
-      },
       MuiLink: {
         styleOverrides: {
           root: {
@@ -136,3 +130,13 @@ export const theme = (rootElement: HTMLElement) =>
       },
     },
   })
+
+
+export const getTheme = (rootElement: HTMLElement) => {
+  if(typeof theme.components !== 'undefined'){
+    theme.components.MuiDialog = {defaultProps: {
+        container: rootElement,
+      }}
+  }
+  return theme;
+}

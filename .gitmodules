@@ -1,0 +1,3 @@
+[submodule "src/xgov-proposals"]
+	path = src/xgov-proposals
+	url = git@github.com:PhearZero/xGov.git

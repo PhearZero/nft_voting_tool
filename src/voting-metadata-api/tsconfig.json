@@ -15,7 +15,8 @@
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "outDir": "./build"
+    "outDir": "./build",
+    "declaration": true
   },
   "exclude": ["node_modules", "build"]
 }

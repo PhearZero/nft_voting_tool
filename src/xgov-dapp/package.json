@@ -2,7 +2,12 @@
   "name": "algorand-voting-tool",
   "private": true,
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
+    "testz": "ts-node --esm server.ts",
+    "build:te": "yarn build:client && yarn build:server",
+    "build:client": "vite build --outDir dist/client",
+    "build:server": "vite build --ssr src/entry-server.tsx --outDir dist/server",
     "dev": "vite",
     "clean": "rimraf dist",
     "build": "tsc && vite build",
@@ -17,8 +22,11 @@
   },
   "dependencies": {
     "@algorandfoundation/algokit-utils": "^2.1.0",
+    "@algorandfoundation/xgov-api": "*",
     "@blockshake/defly-connect": "^1.1.5",
     "@daffiwallet/connect": "^1.0.3",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@headlessui/react": "^1.7.13",
     "@heroicons/react": "^2.0.16",
     "@makerx/forms-mui": "^1.1.0",
@@ -33,7 +41,10 @@
     "clsx": "^1.2.1",
     "dayjs": "^1.11.7",
     "events": "^3.3.0",
+    "express": "^4.18.2",
     "file-saver": "^2.0.5",
+    "h3": "^1.8.0",
+    "listhen": "^1.3.0",
     "lodash.range": "^3.2.0",
     "lodash.sortby": "^4.7.0",
     "papaparse": "^5.4.1",
@@ -43,6 +54,7 @@
     "react-hook-form": "^7.43.5",
     "react-router-dom": "^6.9.0",
     "recoil": "^0.7.7",
+    "sirv": "^2.0.3",
     "util": "^0.12.5",
     "uuid": "^9.0.0"
   },
@@ -51,9 +63,11 @@
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
+    "@swc/core": "^1.3.78",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
+    "@types/express": "^4.17.17",
     "@types/file-saver": "^2.0.5",
     "@types/jest": "^29.4.4",
     "@types/lodash.range": "^3.2.7",
@@ -62,8 +76,8 @@
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@types/uuid": "^9.0.1",
-    "@typescript-eslint/eslint-plugin": "~5.33.0",
-    "@typescript-eslint/parser": "^5.34.0",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
     "@vitejs/plugin-react-swc": "^3.0.0",
     "autoprefixer": "^10.4.8",
     "browserify-zlib": "^0.2.0",
@@ -76,8 +90,10 @@
     "stream-browserify": "^3.0.0",
     "tailwindcss": "^3.2.7",
     "ts-jest": "^29.0.5",
+    "ts-node": "^10.9.1",
     "typescript": "^4.9.5",
-    "vite": "^4.1.5"
+    "vite": "^4.4.9",
+    "vite-plugin-markdown": "^2.1.0"
   },
   "overrides": {
     "@blockshake/defly-connect": {

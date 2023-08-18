@@ -9,10 +9,10 @@ import {
   VotingRoundMetadata,
   fetchVotingRoundMetadata,
   fetchVotingSnapshot,
-} from '../../../../dapp/src/shared/IPFSGateway'
-import { TallyCounts, VotingRoundGlobalState, fetchTallyCounts, fetchVoterVotes } from '../../../../dapp/src/shared/VotingRoundContract'
-import { ClosedChip, OpenChip, OpeningSoonChip, YouHaveNotVotedChip, YouVotedChip } from '../../shared/Chips'
-import { calculateTotalAskedAndAwarded } from '../../shared/stats'
+} from '@/shared/IPFSGateway'
+import { TallyCounts, VotingRoundGlobalState, fetchTallyCounts, fetchVoterVotes } from '@/shared/VotingRoundContract'
+import { ClosedChip, OpenChip, OpeningSoonChip, YouHaveNotVotedChip, YouVotedChip } from '@/shared/Chips'
+import { calculateTotalAskedAndAwarded } from '@/shared/stats'
 import AlgoStats from '../vote/AlgoStats'
 import VotingStats from '../vote/VotingStats'
 import { VotingTime } from '../vote/VotingTime'

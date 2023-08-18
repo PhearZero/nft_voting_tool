@@ -3,13 +3,15 @@ import { useWallet } from '@txnlab/use-wallet'
 import sortBy from 'lodash.sortby'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { VotingRoundGlobalState, fetchVotingRoundGlobalStatesByCreators } from '../../../../dapp/src/shared/VotingRoundContract'
-import { DisplayAddress } from '../../shared/DisplayAddress'
-import { getHasVoteEnded, getHasVoteStarted } from '../../shared/vote'
+import { VotingRoundGlobalState, fetchVotingRoundGlobalStatesByCreators } from '@/shared/VotingRoundContract'
+import { DisplayAddress } from '@/shared/DisplayAddress'
+import { getHasVoteEnded, getHasVoteStarted } from '@/shared/vote'
 import { useCreatorAddresses } from '../wallet/state'
 import { VotingRoundSection } from './VotingRoundSection'
 import { VotingRoundStatus } from './VotingRoundTile'
+import { attributes } from '../../../../xgov-proposals/Proposals/xgov-1.md'
 
+console.log(attributes)
 export const VotingRoundTileLoading = () => (
   <>
     <Skeleton className="h-52" variant="rectangular" />
