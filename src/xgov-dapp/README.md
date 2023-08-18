@@ -21,3 +21,4 @@ The dApp is implemented using:
 2. `npm install`
 3. `npm run dev`, or, in VS Code run the `Run dApp` Run and Debug configuration
 4. Visit <http://localhost:5173/>
+
