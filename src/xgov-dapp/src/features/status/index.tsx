@@ -41,19 +41,20 @@ function Status() {
 
         try {
           //TWI4TQQGI2BWT4CDCGZJCNHDYAJE5OLFBMFKXEG3OBWFOLIPGJCY6HAHKA
-          const [termPools, govenorData] = await Promise.all([fetchTermPools(), fetchGovenorData(activeAddress)])
+          const [termPools, govenorData] = await Promise.all([fetchTermPools(), fetchGovenorData("TWI4TQQGI2BWT4CDCGZJCNHDYAJE5OLFBMFKXEG3OBWFOLIPGJCY6HAHKA")])
           setTermPools(termPools)
+          console.log(govenorData)
           setGovenorData(govenorData)
           if (govenorData?.length) {
             setIsEligible(govenorData[govenorData.length - 1].eligibility === 'eligible')
           }
         } catch (e) {
           if (e instanceof Error) {
-            setError(e.message)
+            // setError(e.message)
           } else {
             // eslint-disable-next-line no-console
             console.error(e)
-            setError('Unexpected error')
+            // setError('Unexpected error')
           }
         } finally {
           setIsLoadingXgovData(false)

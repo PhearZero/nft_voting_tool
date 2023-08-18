@@ -14,6 +14,6 @@ export default defineConfig({
     }
   },
   ssr: {
-    noExternal: ["@mui/**", "@emotion/**", "file-saver"],
+    noExternal: process.env.NODE_ENV !== 'development' ? ["@mui/**", "@emotion/**", "file-saver"] : [],
   },
 })

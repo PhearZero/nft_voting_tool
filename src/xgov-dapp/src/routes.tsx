@@ -12,6 +12,7 @@ import ProposalDetails from '@/features/proposals/Details'
 import {ProposalsList} from '@/features/proposals/List'
 import {NotFound} from "@/404";
 import {ErrorPage} from "@/500";
+import CreateProposalPage from "@/features/proposals/CreateProposal";
 export const Router = () => {
   return (
     <Routes>
@@ -26,6 +27,7 @@ export const Router = () => {
         <Route path="status" element={<Status />} />
         <Route path="proposals/:slug" element={<ProposalDetails/>} />
         <Route path="proposals" element={<ProposalsList/>} />
+        <Route path="proposals/create" element={<CreateProposalPage/>} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

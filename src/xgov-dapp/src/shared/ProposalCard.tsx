@@ -1,4 +1,5 @@
 import LaunchIcon from '@mui/icons-material/Launch'
+import {Link as RouterLink} from 'react-router-dom'
 import { Chip, LinearProgress, Link, Paper, Typography } from '@mui/material'
 import { AbstainChip, CategoryChip, DidNotPassChip, MockProposalChip, PassedChip, VotesNeededToPassChip } from './Chips'
 
@@ -71,9 +72,9 @@ export const ProposalCard = ({
             {focus_area && <Chip className="rounded-lg mr-2" label={focus_area} />}
             {category && <CategoryChip category={category} />}
           </span>
-          <Link className="text-grey-light align-text-top ml-2 inline-block" href={link} target="_blank">
+          <RouterLink className="text-grey-light align-text-top ml-2 inline-block" to={link || "/"}>
             <LaunchIcon />
-          </Link>
+          </RouterLink>
         </div>
       </div>
       <div className="md:hidden mt-2">
