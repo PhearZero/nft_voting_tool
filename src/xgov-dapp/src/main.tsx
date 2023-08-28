@@ -15,6 +15,8 @@ import './main.css'
 import Root from './root'
 import RequireCreator from './shared/router/RequireCreator'
 import { theme } from './theme'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 const router = createBrowserRouter([
   {
@@ -57,16 +59,21 @@ const router = createBrowserRouter([
 ])
 
 const rootElement = document.getElementById('root') as HTMLElement
+// TODO: add global cache strategy
+const queryClient = new QueryClient()
 
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
     <CssBaseline />
-    <StyledEngineProvider>
-      <ThemeProvider theme={theme(rootElement)}>
-        <RecoilRoot>
-          <RouterProvider router={router} />
-        </RecoilRoot>
-      </ThemeProvider>
-    </StyledEngineProvider>
+    <QueryClientProvider client={queryClient}>
+      <StyledEngineProvider>
+        <ThemeProvider theme={theme(rootElement)}>
+          <RecoilRoot>
+            <RouterProvider router={router} />
+          </RecoilRoot>
+        </ThemeProvider>
+      </StyledEngineProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   </React.StrictMode>,
 )
