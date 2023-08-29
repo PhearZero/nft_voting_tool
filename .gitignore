@@ -41,3 +41,4 @@ coverage
 # Website & Code docs generation
 code-docs/
 out/
+.vercel
