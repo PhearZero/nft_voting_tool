@@ -1,136 +1,117 @@
-import { useQuery } from '@tanstack/react-query'
+import {UseQueryResult} from '@tanstack/react-query'
 
-import type { VotingRoundGlobalState } from '../../../dapp/src/shared/VotingRoundContract'
-import type {
-  VotingRoundMetadata,
-  VoteGatingSnapshot,
-} from '../../../dapp/src/shared/IPFSGateway'
+import type {TallyCounts, VotingRoundGlobalState} from '../../../dapp/src/shared/VotingRoundContract'
+import type {VoteGatingSnapshot, VotingRoundMetadata,} from '../../../dapp/src/shared/IPFSGateway'
+import api from "../shared/api";
+import {useWallet} from "@makerx/use-wallet";
+import {getHasVoteEnded, getHasVoteStarted} from "../shared/vote";
+import useGlobalStateQuery from "./use-global-state-query";
+import useMetadataQuery from "./use-metadata-query";
+import useSnapshotQuery from "./use-snapshot-query";
+import useTallyCountsQuery from "./use-tally-counts-query";
+import {useVoterVotesQuery} from "./use-voter-votes-query";
 
-import {
-  fetchVoterVotes,
-  fetchVotingRoundGlobalState,
-} from '../../../dapp/src/shared/VotingRoundContract'
-import {
-  fetchVotingRoundMetadata,
-  fetchVotingSnapshot,
-} from '../../../dapp/src/shared/IPFSGateway'
-
-export function useGlobalStateQuery(voteId: string | number | undefined) {
-  return useQuery<VotingRoundGlobalState | undefined>(
-    ['globalState', voteId],
-    () => {
-      if (typeof voteId === 'number') {
-        return fetchVotingRoundGlobalState(voteId)
-      }
-      if (typeof voteId === 'string') {
-        return fetchVotingRoundGlobalState(parseInt(voteId))
-      }
-      return undefined
-    },
-    {
-      enabled: typeof voteId !== 'undefined',
-    },
-  )
-}
-export function useMetadataQuery(voteId: string | number | undefined) {
-  const globalState = useGlobalStateQuery(voteId)
-
-  return useQuery<VotingRoundMetadata | undefined>(
-    ['metadata', voteId],
-    () => {
-      if (typeof globalState.data?.metadata_ipfs_cid === 'string') {
-        return fetchVotingRoundMetadata(globalState.data.metadata_ipfs_cid)
-      } else {
-        return undefined
-      }
-    },
-    {
-      staleTime: Infinity,
-      enabled: typeof globalState.data?.metadata_ipfs_cid !== 'undefined',
-    },
-  )
-}
-export function useSnapshotQuery(voteId: number | string | undefined) {
-  const metadata = useMetadataQuery(voteId)
-  return useQuery<VoteGatingSnapshot | undefined>(
-    ['snapshot', voteId],
-    () => {
-      if (typeof metadata.data?.voteGatingSnapshotCid !== 'undefined') {
-        return fetchVotingSnapshot(metadata.data.voteGatingSnapshotCid)
-      } else {
-        return undefined
-      }
-    },
-    {
-      enabled: typeof metadata.data?.voteGatingSnapshotCid !== 'undefined',
-      staleTime: Infinity,
-    },
-  )
-}
-
-export function useVotingRoundQuery(
-  voteId: number | string | undefined,
-  voterAddress?: string | undefined,
-) {
-  const globalState = useGlobalStateQuery(voteId)
-  const metadata = useMetadataQuery(voteId)
-  const snapshot = useSnapshotQuery(voteId)
-  const voter = useVoter(voteId, voterAddress)
-
-  const isLoading =
-    globalState.isLoading || metadata.isLoading || snapshot.isLoading
-
-  const isError = globalState.isError || metadata.isError || snapshot.isError
-
-  return {
+type UseVotingRoundQueryResponse = {
+    errors: Error[]
     data: {
-      voter: voter.data,
-      globalState: globalState.data,
-      snapshot: snapshot.data,
-      metadata: metadata.data,
-    },
-    isLoading,
-    isError,
-  }
+        hasVoteStarted: boolean
+        hasVoteEnded: boolean
+        hasClosed: boolean
+        submit: any
+        close: any
+        globalState: VotingRoundGlobalState | undefined
+        snapshot: VoteGatingSnapshot | undefined
+        metadata: VotingRoundMetadata | undefined
+        tallyCounts: TallyCounts | undefined
+    }
+    refetch: any
+    isLoading: boolean
+    isError: boolean
 }
 
-export function useVoter(
-  voteId: string | number | undefined,
-  voterAddress: string | undefined,
-) {
-  const globalState = useGlobalStateQuery(voteId)
-  const metadata = useMetadataQuery(voteId)
+function getLoading(...queries: UseQueryResult[]) {
+    return queries.some((query) => query.isLoading)
+}
 
-  return useQuery(
-    ['voter', voteId, voterAddress],
-    () => {
-      if (typeof voteId === 'number') {
-        return fetchVoterVotes(
-          voteId,
-          voterAddress,
-          metadata.data,
-          globalState.data,
-        )
-      }
+function getError(...queries: UseQueryResult[]) {
+    return queries.some((query) => query.isError)
+}
 
-      if (typeof voteId === 'string') {
-        return fetchVoterVotes(
-          parseInt(voteId),
-          voterAddress,
-          metadata.data,
-          globalState.data,
-        )
-      }
+function getErrors(...queries: UseQueryResult[]): Error[] {
+    return queries
+        .filter((query) => query.isError)
+        .map((query) => query.error as Error)
+}
 
-      return undefined
-    },
-    {
-      enabled:
-        typeof voteId !== 'undefined' &&
-        typeof voterAddress !== 'undefined' &&
-        voterAddress !== null &&
-        typeof metadata.data !== 'undefined' &&
-        typeof globalState.data !== 'undefined',
-    },
-  )
+/**
+ * Fetches all the data for a voting round
+ *
+ * @param {number | string | undefined} voteId
+ */
+export function useVotingRound(
+    voteId: number | string | undefined
+): UseVotingRoundQueryResponse {
+    // Effects
+    const globalState = useGlobalStateQuery(voteId)
+    const metadata = useMetadataQuery(voteId)
+    const snapshot = useSnapshotQuery(voteId)
+    const tallyCounts = useTallyCountsQuery(voteId)
+
+    // API Actions
+    const submit = api.useSubmitVote()
+    const close = api.useCloseVotingRound()
+
+    // Combined State
+    const isLoading = getLoading(globalState, metadata, snapshot, tallyCounts)
+    const isError = getError(globalState, metadata, snapshot, tallyCounts)
+    const errors = getErrors(globalState, metadata, snapshot, tallyCounts)
+
+    // Derived State
+    const hasVoteStarted = !globalState.data ? false : getHasVoteStarted(globalState.data);
+    const hasVoteEnded = !globalState.data ? false : getHasVoteEnded(globalState.data)
+
+    // Effects return
+    return {
+        errors,
+        data: {
+            globalState: globalState.data,
+            snapshot: snapshot.data,
+            metadata: metadata.data,
+            tallyCounts: tallyCounts.data,
+            hasVoteStarted,
+            hasVoteEnded,
+            hasClosed: globalState.data !== undefined && globalState.data.close_time !== undefined,
+            submit,
+            close,
+        },
+        refetch: tallyCounts.refetch,
+        isLoading,
+        isError,
+    }
+}
+
+export function useVoter(voteId: string | number | undefined) {
+    const {activeAddress} = useWallet()
+    const metadata = useMetadataQuery(voteId)
+    const snapshot = useSnapshotQuery(voteId)
+    const voterVotes = useVoterVotesQuery(voteId)
+
+    const addressSnapshot = snapshot.data?.snapshot.find((addressSnapshot) => {
+        return addressSnapshot.address === activeAddress && typeof activeAddress !== 'undefined'
+    })
+
+    const voteWeight = addressSnapshot?.weight && isFinite(addressSnapshot.weight) ?
+        addressSnapshot.weight :
+        !addressSnapshot?.weight ?
+            0 :
+            1
+    return {
+        allowedToVote: typeof addressSnapshot !== 'undefined',
+        refetch: voterVotes.refetch,
+        allowlistSignature: addressSnapshot?.signature,
+        voteWeight,
+        isVoteCreator: metadata.data?.created.by === activeAddress && typeof activeAddress !== 'undefined',
+        voterVotes: voterVotes.data,
+        hasVoted: voterVotes.data !== undefined && voterVotes.data !== null,
+    }
 }
