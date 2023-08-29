@@ -117,6 +117,9 @@ const api = {
           signer: TransactionSignerAccount
           auth: { address: string; signedTransaction: Uint8Array }
         }) => {
+          if (typeof newRound.voteType === 'undefined') {
+            throw new Error('Vote type is undefined')
+          }
           let voteGatingSnapshotCid = ''
           let publicKey = new Uint8Array([])
           let snapshot: VoteGatingSnapshot | undefined = undefined
