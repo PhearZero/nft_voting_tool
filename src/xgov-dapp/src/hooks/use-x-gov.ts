@@ -49,6 +49,7 @@ function getErrors(...queries: UseQueryResult[]): Error[] {
  * @param {UseXGovQueryOptions} [options]
  */
 export function useVotingRound(voteId: number | string | undefined, options?: UseXGovQueryOptions): UseVotingRoundQueryResponse {
+  voteId = typeof voteId === 'string' ? parseInt(voteId) : voteId
   // Effects
   const globalState = useGlobalStateQuery(voteId, options)
   const metadata = useMetadataQuery(voteId, options)
@@ -90,6 +91,8 @@ export function useVotingRound(voteId: number | string | undefined, options?: Us
 }
 
 export function useVoter(voteId: string | number | undefined, options?: UseXGovQueryOptions) {
+  voteId = typeof voteId === 'string' ? parseInt(voteId) : voteId
+
   // Effects
   const { activeAddress } = useWallet()
   const metadata = useMetadataQuery(voteId, options)
