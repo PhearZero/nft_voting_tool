@@ -1,12 +1,13 @@
+import { Buffer } from 'buffer'
 import * as algokit from '@algorandfoundation/algokit-utils'
 import { TransactionSignerAccount } from '@algorandfoundation/algokit-utils/types/account'
 import { AppReference } from '@algorandfoundation/algokit-utils/types/app'
 import { useCallback, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
-import { VoteGatingSnapshot, uploadVoteGatingSnapshot, uploadVotingRound } from '../../../dapp/src/shared/IPFSGateway'
-import { algod, bootstrap, castVote, closeVotingRound, create } from '../../../dapp/src/shared/VotingRoundContract'
-import { signCsv } from '../../../dapp/src/shared/csvSigner'
-import { VoteType, VotingRoundModel } from '../../../dapp/src/shared/types'
+import { VoteGatingSnapshot, uploadVoteGatingSnapshot, uploadVotingRound } from './IPFSGateway'
+import { algod, bootstrap, castVote, closeVotingRound, create } from './VotingRoundContract'
+import { signCsv } from './csvSigner'
+import { VoteType, VotingRoundModel } from './types'
 import { useAppSourceMaps } from '../features/vote-creation/state'
 import { useSetConnectedWallet } from '../features/wallet/state'
 
@@ -116,6 +117,9 @@ const api = {
           signer: TransactionSignerAccount
           auth: { address: string; signedTransaction: Uint8Array }
         }) => {
+          if (typeof newRound.voteType === 'undefined') {
+            throw new Error('Vote type is undefined')
+          }
           let voteGatingSnapshotCid = ''
           let publicKey = new Uint8Array([])
           let snapshot: VoteGatingSnapshot | undefined = undefined

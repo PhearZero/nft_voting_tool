@@ -5,19 +5,14 @@ import { Alert, Box, Button, InputAdornment, Link, Skeleton, TextField, Typograp
 import clsx from 'clsx'
 import { useEffect, useState } from 'react'
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom'
-import {
-  VoteGatingSnapshot,
-  VotingRoundMetadata,
-  fetchVotingRoundMetadata,
-  fetchVotingSnapshot,
-} from '../../../../dapp/src/shared/IPFSGateway'
+import { VoteGatingSnapshot, VotingRoundMetadata, fetchVotingRoundMetadata, fetchVotingSnapshot } from '../../shared/IPFSGateway'
 import {
   TallyCounts,
   VotingRoundGlobalState,
   fetchTallyCounts,
   fetchVoterVotes,
   fetchVotingRoundGlobalState,
-} from '../../../../dapp/src/shared/VotingRoundContract'
+} from '../../shared/VotingRoundContract'
 import { ProposalCard } from '../../shared/ProposalCard'
 import api from '../../shared/api'
 import { LoadingDialog } from '../../shared/loading/LoadingDialog'
@@ -351,7 +346,7 @@ function Vote() {
               </div>
             )}
             {votingRoundMetadata?.questions.map((question, index) => (
-              <div className="col-span-3 grid grid-cols-1 lg:grid-cols-3 gap-4 bg-white rounded-lg">
+              <div key={index} className="col-span-3 grid grid-cols-1 lg:grid-cols-3 gap-4 bg-white rounded-lg">
                 <div className="col-span-2">
                   {question.metadata && (
                     <ProposalCard

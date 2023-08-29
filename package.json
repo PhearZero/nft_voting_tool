@@ -1,0 +1,13 @@
+{
+  "name": "xgov.algorand.foundation",
+  "version": "1.0.0",
+  "description": "This repository contains a voting tool that allows for creation and facilitation of immutable, tamperproof voting using the Algorand blockchain.",
+  "private": true,
+  "workspaces": [
+    "src/*"
+  ],
+  "directories": {
+    "doc": "docs"
+  },
+  "license": "MIT"
+}
