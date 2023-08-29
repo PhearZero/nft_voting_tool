@@ -1,5 +1,5 @@
 import { useQuery, UseQueryOptions } from '@tanstack/react-query'
-import { fetchTallyCounts, TallyCounts } from '../../../dapp/src/shared/VotingRoundContract'
+import { fetchTallyCounts, TallyCounts } from '../shared/VotingRoundContract'
 import useMetadataQuery from './use-metadata-query'
 import { UseXGovQueryOptions } from './index'
 

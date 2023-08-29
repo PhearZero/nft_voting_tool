@@ -17,7 +17,7 @@ import RequireCreator from './shared/router/RequireCreator'
 import { theme } from './theme'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-
+import { format } from 'https://esm.sh/date-fns@2.28.0'
 const router = createBrowserRouter([
   {
     path: '/',

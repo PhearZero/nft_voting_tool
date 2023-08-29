@@ -1,5 +1,5 @@
 import { useQuery, UseQueryOptions } from '@tanstack/react-query'
-import { fetchVotingSnapshot, VoteGatingSnapshot } from '../../../dapp/src/shared/IPFSGateway'
+import { fetchVotingSnapshot, VoteGatingSnapshot } from '../shared/IPFSGateway'
 import useMetadataQuery from './use-metadata-query'
 import { UseXGovQueryOptions } from './index'
 

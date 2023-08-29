@@ -1,7 +1,7 @@
 import { UseQueryResult } from '@tanstack/react-query'
 
-import type { TallyCounts, VotingRoundGlobalState } from '../../../dapp/src/shared/VotingRoundContract'
-import type { VoteGatingSnapshot, VotingRoundMetadata } from '../../../dapp/src/shared/IPFSGateway'
+import type { TallyCounts, VotingRoundGlobalState } from '../shared/VotingRoundContract'
+import type { VoteGatingSnapshot, VotingRoundMetadata } from '../shared/IPFSGateway'
 import api from '../shared/api'
 import { useWallet } from '@makerx/use-wallet'
 import { getHasVoteEnded, getHasVoteStarted } from '../shared/vote'

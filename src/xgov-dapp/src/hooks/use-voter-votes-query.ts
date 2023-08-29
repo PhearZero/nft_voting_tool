@@ -1,7 +1,7 @@
 import { useWallet } from '@makerx/use-wallet'
 import { useQuery, UseQueryOptions } from '@tanstack/react-query'
 import { UseXGovQueryOptions } from './index'
-import { fetchVoterVotes } from '../../../dapp/src/shared/VotingRoundContract'
+import { fetchVoterVotes } from '../shared/VotingRoundContract'
 import useGlobalStateQuery from './use-global-state-query'
 import useMetadataQuery from './use-metadata-query'
 

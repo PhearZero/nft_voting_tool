@@ -1,14 +1,9 @@
-import {useQuery} from "@tanstack/react-query";
-import type {VotingRoundGlobalState} from "../../../dapp/src/shared/VotingRoundContract";
-import {
-    fetchVotingRoundGlobalStatesByCreators
-} from "../../../dapp/src/shared/VotingRoundContract";
+import { useQuery } from '@tanstack/react-query'
+import type { VotingRoundGlobalState } from '../shared/VotingRoundContract'
+import { fetchVotingRoundGlobalStatesByCreators } from '../shared/VotingRoundContract'
 
-export default function useGlobalStatesByCreatorQuery(addresses: string[]){
-    return useQuery<VotingRoundGlobalState[]>(
-        ['globalStatesByCreator', addresses],
-        () => {
-            return fetchVotingRoundGlobalStatesByCreators(addresses)
-        }
-    )
+export default function useGlobalStatesByCreatorQuery(addresses: string[]) {
+  return useQuery<VotingRoundGlobalState[]>(['globalStatesByCreator', addresses], () => {
+    return fetchVotingRoundGlobalStatesByCreators(addresses)
+  })
 }

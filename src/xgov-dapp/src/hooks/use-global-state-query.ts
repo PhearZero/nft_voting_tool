@@ -1,5 +1,5 @@
 import { useQuery, UseQueryOptions } from '@tanstack/react-query'
-import { fetchVotingRoundGlobalState, VotingRoundGlobalState } from '../../../dapp/src/shared/VotingRoundContract'
+import { fetchVotingRoundGlobalState, VotingRoundGlobalState } from '../shared/VotingRoundContract'
 import { UseXGovQueryOptions } from './index'
 
 export type UseGlobalStateQueryOptions = UseQueryOptions<VotingRoundGlobalState | undefined, unknown, VotingRoundGlobalState | undefined>
