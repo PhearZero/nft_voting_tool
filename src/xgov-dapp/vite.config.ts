@@ -9,7 +9,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@makerx/forms-core': '@makerx/forms-core/dist/cjs/index.js',
+      // '@makerx/forms-core': '@makerx/forms-core/dist/cjs/index.js',
       buffer: 'buffer/',
     },
   },
